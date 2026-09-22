@@ -42,7 +42,13 @@ public class SecurityConfig {
                                 "/login",
                                 "/register"
                         ).permitAll()
-                        .anyRequest().authenticated()// 其他接口都需要登录
+                        // 只有管理员可以访问
+                        .requestMatchers("/admin/**")
+                        .hasRole("ADMIN")
+
+                        // 其余接口只要登录即可
+                        .anyRequest()
+                        .authenticated()// 其他接口都需要登录
                 )
 
                 // 未登录访问受保护接口时，返回 401 JSON
@@ -53,7 +59,12 @@ public class SecurityConfig {
                                     HttpServletResponse.SC_UNAUTHORIZED// 401 未授权
                             );
                         })
+                        // 登录了，但角色不允许
+                        .accessDeniedHandler((request, response, e) ->
+                                response.setStatus(HttpServletResponse.SC_FORBIDDEN)// 403 禁止访问
+                        )
                 )
+
 
                 // 把你写的 JWT 过滤器加入安全过滤器链
                 .addFilterBefore(

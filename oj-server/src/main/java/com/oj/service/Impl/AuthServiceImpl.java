@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
             throw new LoginFailedException(MessageConstant.ACCOUNT_LOCKED);
         }
         //生成JWT令牌
-        String token = jwtUtil.generateToken((long) user.getId());
+        String token = jwtUtil.generateToken((long) user.getId(), user.getRole());
         return UserVO.builder()
                 .id(user.getId())
                 .username(user.getUsername())

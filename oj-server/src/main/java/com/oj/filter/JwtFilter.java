@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -40,12 +41,15 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // 2. 去掉 "Bearer " 前缀，得到 JWT 字符串
         String token = authorization.substring(7);
-
+        String role = jwtUtil.parseToken(token).get("role").toString();
         Long userId;
         try {
             // 3. 验证 JWT，并取出用户 ID
             String subject = jwtUtil.parseToken(token).getSubject();
             userId = Long.valueOf(subject);
+            if (!"USER".equals(role) && !"ADMIN".equals(role)) {
+                throw new IllegalArgumentException("角色不合法");
+            }
         } catch (JwtException | IllegalArgumentException e) {
             // Token 无效，结束请求
             SecurityContextHolder.clearContext();
@@ -57,7 +61,7 @@ public class JwtFilter extends OncePerRequestFilter {
         var authentication = new UsernamePasswordAuthenticationToken(
                 userId,     // 当前用户是谁
                 null,       // 密码或凭证，这里不保存
-                List.of()   // 角色和权限，目前为空
+                List.of(new SimpleGrantedAuthority("ROLE_" + role))//   // 角色和权限
         );
 
         // 把身份信息放入 Spring Security 上下文

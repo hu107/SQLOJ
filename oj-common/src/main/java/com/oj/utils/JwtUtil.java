@@ -31,12 +31,13 @@ public class JwtUtil {
 
 
     // 生成令牌
-    public  String generateToken(Long userId) {
+    public  String generateToken(Long userId, String role) {
         // 获取当前时间，单位是毫秒
         long now = System.currentTimeMillis();
         return Jwts.builder()
                 .subject(userId.toString())      // 记录这个令牌属于谁，用户ID为1，就保存字符串"1"
-                .issuedAt(new Date(now))       // 设置签发时间
+                .issuedAt(new Date(now))// 设置签发时间
+                .claim("role", role)// 自定义角色字段
                 .expiration(new Date(now + expiration))  // 设置过期时间：现在 + 有效时长
                 .signWith(secretKey, Jwts.SIG.HS256)     // 使用密钥和 HS256 算法签名，供后续验证令牌是否被篡改
                 .compact();     // 完成构建，生成最终的 JWT 字符串
