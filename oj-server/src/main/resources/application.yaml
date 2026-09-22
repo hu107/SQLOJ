@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: oj-server
+
+  datasource:
+    business:
+      jdbc-url: jdbc:mysql://localhost:3306/sql_oj_business?serverTimezone=Asia/Shanghai
+      username: business_user
+      password: ${BUSINESS_DB_PASSWORD}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+    judge:
+      jdbc-url: jdbc:mysql://localhost:3306/sql_oj_judge?serverTimezone=Asia/Shanghai
+      username: judge_user
+      password: ${JUDGE_DB_PASSWORD}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      maximum-pool-size: 5
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 7200000
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.1.1</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.oj</groupId>
+    <artifactId>SQLOJ</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>oj-common</module>
+        <module>oj-pojo</module>
+        <module>oj-server</module>
+    </modules>
+
+    <properties>
+        <java.version>21</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 统一版本管理 -->
+        <knife4j.version>5.4.0</knife4j.version>
+        <swagger-annotations.version>2.2.47</swagger-annotations.version>
+        <jjwt.version>0.13.0</jjwt.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- knife4j-next：Spring Boot 4 兼容版（doc.html 文档界面） -->
+            <dependency>
+                <groupId>com.baizhukui</groupId>
+                <artifactId>knife4j-openapi3-boot4-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+            <!-- OpenAPI3 注解：pojo/common 里的 VO/DTO 写 @Schema/@Operation/@Tag 用，
+                 版本与 knife4j starter 内部钉的 swagger 一致，避免运行时版本错位 -->
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations-jakarta</artifactId>
+                <version>${swagger-annotations.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-gson</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
