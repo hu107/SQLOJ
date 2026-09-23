@@ -31,7 +31,7 @@
     </delete>
 
     <!-- 分页查询题目列表 -->
-    <select id="pageQuery" resultType="com.oj.vo.AdminQuestionVO">
+    <select id="pageQuery" resultType="com.oj.vo.AdminQuestionTitleVO">
         SELECT id,
                title,
                question_text   AS questionText,
@@ -56,5 +56,22 @@
         FROM question
         WHERE id = #{id}
     </select>
+    <select id="userPageQuery" resultType="com.oj.vo.QuestionTitleVO">
+        SELECT id,
+               title,
+               difficulty
+        FROM question
+        WHERE status = 'PUBLISHED'
+        ORDER BY id
+    </select>
+    <select id="userGetById" resultType="com.oj.vo.QuestionDetailVO">
+        SELECT id,
+               title,
+               question_text   AS questionText,
+               difficulty
+        FROM question
+        WHERE id = #{id} AND status = 'PUBLISHED'
+    </select>
+
 
 </mapper>

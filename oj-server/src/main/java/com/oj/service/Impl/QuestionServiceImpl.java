@@ -10,7 +10,9 @@ import com.oj.exception.BaseException;
 import com.oj.mapper.QuestionMapper;
 import com.oj.result.PageResult;
 import com.oj.service.QuestionService;
-import com.oj.vo.AdminQuestionVO;
+import com.oj.vo.AdminQuestionTitleVO;
+import com.oj.vo.QuestionDetailVO;
+import com.oj.vo.QuestionTitleVO;
 import com.oj.vo.QuestionVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class QuestionServiceImpl implements QuestionService {
         int pageNum = questionPageQueryDTO.getPage();
         int pageSize = questionPageQueryDTO.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
-        Page<AdminQuestionVO> page = questionMapper.pageQuery(questionPageQueryDTO);
+        Page<AdminQuestionTitleVO> page = questionMapper.pageQuery(questionPageQueryDTO);
         return new PageResult(page.getTotal(), page.getResult());
     }
 
@@ -74,5 +76,20 @@ public class QuestionServiceImpl implements QuestionService {
         BeanUtils.copyProperties(questionDTO, question);
         question.setUpdateTime(LocalDateTime.now().toString());
         questionMapper.updateQuestion(question);
+    }
+
+    //用户分页查询已发布题目
+    @Override
+    public PageResult usePageQuery(QuestionPageQueryDTO questionPageQueryDTO) {
+        int pageNum = questionPageQueryDTO.getPage();
+        int pageSize = questionPageQueryDTO.getPageSize();
+        PageHelper.startPage(pageNum, pageSize);
+        Page<QuestionTitleVO> page = questionMapper.userPageQuery(questionPageQueryDTO);
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    @Override
+    public QuestionDetailVO userGetById(int id) {
+        return questionMapper.userGetById(id);
     }
 }

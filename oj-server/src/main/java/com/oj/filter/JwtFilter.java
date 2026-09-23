@@ -1,5 +1,6 @@
 package com.oj.filter;
 
+import com.oj.constant.MessageConstant;
 import com.oj.utils.JwtUtil;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
@@ -48,7 +49,7 @@ public class JwtFilter extends OncePerRequestFilter {
             String subject = jwtUtil.parseToken(token).getSubject();
             userId = Long.valueOf(subject);
             if (!"USER".equals(role) && !"ADMIN".equals(role)) {
-                throw new IllegalArgumentException("角色不合法");
+                throw new IllegalArgumentException(MessageConstant.ROLE_NOT_FOUND);
             }
         } catch (JwtException | IllegalArgumentException e) {
             // Token 无效，结束请求

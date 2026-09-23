@@ -3,6 +3,7 @@ package com.oj.vo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 public class QuestionDetailVO implements Serializable {
@@ -15,6 +16,9 @@ public class QuestionDetailVO implements Serializable {
 
     //问题描述
     private String questionText;
+
+    //题目涉及的表结构
+    private List<TableDataVO> tables;
 
     //难度
     private String difficulty;

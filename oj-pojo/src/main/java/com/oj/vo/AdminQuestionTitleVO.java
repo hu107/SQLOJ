@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class AdminQuestionVO implements Serializable {
+public class AdminQuestionTitleVO implements Serializable {
 
     //主键
     private int id;
@@ -13,14 +13,8 @@ public class AdminQuestionVO implements Serializable {
     //问题标题
     private String title;
 
-    //问题描述
-    private String questionText;
-
     //难度
     private String difficulty;
-
-    //标准答案
-    private String standardSql;
 
     //排序方式
     private int orderSensitive;
@@ -33,5 +27,5 @@ public class AdminQuestionVO implements Serializable {
 
     //更新时间
     private String updateTime;
-    
+
 }

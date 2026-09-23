@@ -12,5 +12,6 @@ public class MessageConstant {
     public static final String UPLOAD_FAILED = "文件上传失败";
     public static final String QUESTION_NOT_FOUND = "题目不存在";
     public static final String PASSWORD_EDIT_FAILED = "密码修改失败";
+    public static final String ROLE_NOT_FOUND = "角色不存在";
 
 }

@@ -115,7 +115,8 @@ onBeforeUnmount(() => { active = false; detailController?.abort() })
         </el-form-item>
       </div>
       <el-form-item label="题目描述" prop="questionText" required>
-        <el-input v-model="form.questionText" type="textarea" :rows="5" resize="vertical" placeholder="说明查询要求、相关数据表和预期结果。" />
+        <el-input v-model="form.questionText" type="textarea" :rows="6" resize="vertical"
+          placeholder="填写题目要求，并在末尾注明示例表名，例如：&#10;&#10;查询所有用户信息。&#10;&#10;示例：user_profile" />
       </el-form-item>
       <el-form-item label="标准答案 SQL" prop="standardSql" required class="sql-form-item">
         <el-input v-model="form.standardSql" type="textarea" :rows="5" resize="vertical" spellcheck="false" placeholder="输入该题的标准 SQL 答案" />

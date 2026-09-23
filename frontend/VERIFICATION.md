@@ -1,5 +1,14 @@
 # 验证记录
 
+## 2026-09-23 示例表名并入题目描述（当前版本）
+
+- 取消尚未落库的 `table_structure` 方案，Java 实体、DTO、管理员详情、用户详情、MyBatis 与前端请求响应均不再包含 `tableStructure`。
+- 管理端只填写一个题目描述，格式为“查询要求 + 空行 + `示例：表名`”；详情按原换行展示，不再单独显示表结构区块。
+- 真实数据库 50 / 50 道题已更新为新格式，例如 `示例：employees`；多表题目使用顿号分隔。`business_user` 没有 `ALTER` 权限，因此真实库中的 `table_structure` 物理列仍需管理员执行 `database/migrations/20260923_remove_question_table_structure.sql` 的最后一条删列语句，应用代码已经不再读取或写入该列。该列当前为 `NOT NULL` 且无默认值，完成删列前不要通过新代码新增题目。
+- `npm run build`：通过；Element Plus 主包仍有原有的 500 kB 体积提醒。
+- `$env:PLAYWRIGHT_CHANNEL='chrome'; npm run test:e2e`：**23 / 23 通过**，覆盖新增、编辑、详情及描述换行原样传递。
+- JDK 21 下根目录 `mvn test` 与 `mvn package -DskipTests`：通过，已生成后端可运行 JAR；当前工程没有 Java 自动化测试用例。
+
 ## 2026-09-20 编辑删除恢复到列表（当前版本）
 
 - 列表右侧恢复固定的“操作”列，直接提供编辑、删除；点击标题仍打开只读详情，详情底部仅保留关闭按钮。取消编辑/删除返回列表，删除仍需二次确认。标题悬停无下划线。

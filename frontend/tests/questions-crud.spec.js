@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 // 所有账号与题目均为浏览器测试夹具，不连接或修改真实数据库。
 const session = { token: 'isolated-crud-token', user: { id: 7, username: 'testuser' } }
 const question = (id) => ({
-  id, title: `测试题目 ${id}`, questionText: '查询符合条件的数据，并返回指定字段。',
+  id, title: `测试题目 ${id}`, questionText: '查询符合条件的数据，并返回指定字段。\n\n示例：sample_table',
   difficulty: 'EASY', status: 'DRAFT', orderSensitive: 0,
   standardSql: 'SELECT id FROM sample_table;',
   createTime: '2026-09-20T10:00:00', updateTime: '2026-09-20T11:00:00',
@@ -15,7 +15,7 @@ async function reply(route, data, code = 1, msg = null) {
 
 async function fillRequired(dialog, title = '新增测试题目') {
   await dialog.getByLabel('题目标题', { exact: true }).fill(title)
-  await dialog.getByLabel('题目描述', { exact: true }).fill('查询每个部门的员工数量。')
+  await dialog.getByLabel('题目描述', { exact: true }).fill('查询每个部门的员工数量。\n\n示例：employee')
   await dialog.getByLabel('标准答案 SQL', { exact: true }).fill('SELECT department_id, COUNT(*) FROM employee GROUP BY department_id;')
 }
 
@@ -53,7 +53,7 @@ test('新增校验、枚举与数字字段、SQL原样提交、防重复和跳�
     expect(route.request().headers().authorization).toBe(`Bearer ${session.token}`)
     created = route.request().postDataJSON()
     expect(created).toEqual({
-      title: '部门员工统计', questionText: '查询每个部门的员工数量。',
+      title: '部门员工统计', questionText: '查询每个部门的员工数量。\n\n示例：employee',
       difficulty: 'HARD', status: 'PUBLISHED', orderSensitive: 1,
       standardSql: '  SELECT department_id, COUNT(*)\nFROM employee\nGROUP BY department_id;\n',
     })
@@ -301,7 +301,7 @@ test('手机列表可直接编辑删除，标题仍可查看详情', async ({ pa
 test('只读详情显示完整最新文本和原始SQL，未知枚举原样展示，支持键盘和手机滚动', async ({ page }) => {
   const latest = {
     ...question(1), title: '统计各部门员工人数与平均薪资', difficulty: 'CUSTOM', status: 'CUSTOM_STATUS', orderSensitive: 9,
-    questionText: '给定员工表 employee，包含 id、department_id 和 salary 字段。\n\n按部门统计员工人数与平均薪资，仅返回员工人数大于 5 的部门。\n结果按平均薪资降序排列。\n\n' + '补充说明：空值不计入平均薪资计算。\n'.repeat(12) + '<img src=x onerror=alert(1)>',
+    questionText: '按部门统计员工人数与平均薪资，仅返回员工人数大于 5 的部门。\n结果按平均薪资降序排列。\n\n' + '补充说明：空值不计入平均薪资计算。\n'.repeat(12) + '<img src=x onerror=alert(1)>\n\n示例：employee',
     standardSql: '  SELECT department_id, COUNT(*) AS total, AVG(salary) AS avg_salary\n  FROM employee\n  GROUP BY department_id\n  HAVING COUNT(*) > 5\n  ORDER BY avg_salary DESC;\n',
   }
   await page.route('**/api/admin/question/page?*', (route) => reply(route, { total: 1, records: [question(1)] }))

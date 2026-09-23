@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/question")
-public class QuestionController {
+public class AdminQuestionController {
 
     @Autowired
     private QuestionService questionService;
